@@ -17,7 +17,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/flipswitchingmonkey/n8n-nodes-lexofficeapi.git"
+		"url": "https://github.com/flipswitchingmonkey/n8n-nodes-lexoffice-api"
 	},
 	"main": "index.js",
 	"scripts": {
@@ -38,7 +38,7 @@
 		],
 		"nodes": [
 			"dist/nodes/LexofficePuplicApi/LexofficePuplicApi.node.js",
-      "dist/nodes/LexofficeEventTrigger/LexofficeEventTrigger.node.js"
+			"dist/nodes/LexofficeEventTrigger/LexofficeEventTrigger.node.js"
 		]
 	},
 	"devDependencies": {
