@@ -1,7 +1,7 @@
-import { INodeProperties } from 'n8n-workflow';
+import { INodeProperties, JsonObject } from 'n8n-workflow';
 import { lexOfficeApiCollection } from './api_lexoffice';
 
-export const lexOfficeApiCollectionCategoryOptions: { name: string; value: string }[] =
+export const lexOfficeApiCollectionCategoryOptions: Array<{ name: string; value: string }> =
 	lexOfficeApiCollection.map((category) => {
 		return {
 			name: category.name,
@@ -79,11 +79,11 @@ export interface LexofficeApiItem {
 	name: string;
 	request: Request;
 	response: Response[];
-	event?: any[]; // we don't care about these...
+	event?: JsonObject[]; // we don't care about these...
 	properties?: INodeProperties[]; // ui elements
 }
 
-interface keyValuePair {
+interface KeyValuePair {
 	key: string;
 	value: string;
 	type?: string;
@@ -93,21 +93,21 @@ interface keyValuePair {
 
 interface Request {
 	// auth
-	header?: keyValuePair[];
+	header?: KeyValuePair[];
 	method: 'GET' | 'PUT' | 'POST' | 'PATCH' | 'DELETE';
 	body?: {
 		mode: 'raw' | 'urlencoded' | 'formdata' | 'file';
 		raw?: string;
-		formdata?: keyValuePair[];
+		formdata?: KeyValuePair[];
 		options?: {
-			raw?: any;
+			raw?: JsonObject;
 		};
 	};
 	url: {
 		raw: string;
 		host: string[];
 		path: string[];
-		query?: keyValuePair[];
+		query?: KeyValuePair[];
 	};
 	description?: string;
 	returnsBinary?: boolean;

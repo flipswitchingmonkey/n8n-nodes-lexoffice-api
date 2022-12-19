@@ -69,9 +69,9 @@ export class LexofficePuplicApi implements INodeType {
 			try {
 				_item = items[i];
 
-				let requestMethod = apiItem.request.method;
+				const requestMethod = apiItem.request.method;
 				let endpoint = apiItem.request.url.path.join('/');
-				let headers = { Authorization: `Bearer ${credentials.token}` };
+				const headers = { Authorization: `Bearer ${credentials.token}` };
 				body = {};
 				qs = {};
 
