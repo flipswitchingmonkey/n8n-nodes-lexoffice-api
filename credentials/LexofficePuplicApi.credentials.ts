@@ -5,22 +5,25 @@ import {
 	INodeProperties,
 } from 'n8n-workflow';
 
-export class HttpBinApi implements ICredentialType {
-	name = 'httpbinApi';
-	displayName = 'HttpBin API';
-	documentationUrl = '<your-docs-url>';
+export class LexofficePuplicApi implements ICredentialType {
+	name = 'lexofficePuplicApi';
+	displayName = 'Lexoffice Public API';
+	documentationUrl = 'https://developers.lexoffice.io/docs';
 	properties: INodeProperties[] = [
 		{
-			displayName: 'Token',
+			displayName: 'API Key',
 			name: 'token',
 			type: 'string',
+			typeOptions: { password: true },
+			required: true,
 			default: '',
 		},
 		{
 			displayName: 'Domain',
 			name: 'domain',
 			type: 'string',
-			default: 'https://httpbin.org',
+			required: true,
+			default: 'https://api.lexoffice.io',
 		},
 	];
 
@@ -41,7 +44,7 @@ export class HttpBinApi implements ICredentialType {
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: '={{$credentials?.domain}}',
-			url: '/bearer',
+			url: '/v1/countries',
 		},
 	};
 }

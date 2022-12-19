@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg viewBox="0 0 90 90"
+	xmlns="http://www.w3.org/2000/svg">
+	<g fill="none" fill-rule="evenodd">
+		<path fill="#F6F6F6" d="M0 0h90v90H0z"/>
+		<path fill="#F70" d="M13 23h21l21 22-21 22H13l21-22z"/>
+		<path d="M44.5 34 34 45l10.5 11L34 45l10.5-11ZM76 23 55 45l21 22H55L44.5 56 55 45 44.5 34 55 23h21Z" fill="#555"/>
+	</g>
+</svg>

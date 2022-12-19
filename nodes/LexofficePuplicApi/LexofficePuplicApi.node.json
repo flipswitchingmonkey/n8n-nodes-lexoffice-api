@@ -1,0 +1,18 @@
+{
+	"node": "n8n-nodes-lexofficeapi",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Finance & Accounting"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://developers.lexoffice.io/cookbooks/public-api/#api-key"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://developers.lexoffice.io/docs"
+			}
+		]
+	}
+}
