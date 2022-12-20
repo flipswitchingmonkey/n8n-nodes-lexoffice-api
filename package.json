@@ -1,6 +1,6 @@
 {
-	"name": "n8n-nodes-lexofficeapi",
-	"version": "0.1.0",
+	"name": "n8n-nodes-lexoffice-api",
+	"version": "0.1.1",
 	"description": "Lexoffice Public API nodes for n8n",
 	"keywords": [
 		"n8n-community-node-package"

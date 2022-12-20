@@ -1,5 +1,5 @@
 {
-	"node": "n8n-nodes-lexofficeapi",
+	"node": "n8n-nodes-lexoffice-api",
 	"nodeVersion": "1.0",
 	"codexVersion": "1.0",
 	"categories": ["Finance & Accounting"],
