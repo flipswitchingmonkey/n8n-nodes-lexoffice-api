@@ -22,6 +22,8 @@ _App/service name_ is _one or two sentences describing the service this node int
 
 Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
+The npm package can be found here [https://www.npmjs.com/package/n8n-nodes-lexoffice-api](https://www.npmjs.com/package/n8n-nodes-lexoffice-api)
+
 ## Operations
 
 Refert to the [Lexoffice Public API](https://developers.lexoffice.io/docs) documentation for available operations.
