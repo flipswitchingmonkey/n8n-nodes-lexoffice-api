@@ -89,6 +89,13 @@ export class LexofficePuplicApi implements INodeType {
 				apiItem.properties?.forEach((property) => {
 					const value = this.getNodeParameter(property.name, i) as string;
 					endpoint = endpoint.replace(`{{${property.name}}}`, value);
+					if (property.name === 'jsonBody') {
+						try {
+							body = JSON.parse(value);
+						} catch (error) {
+							body = { msg: 'Error parsing JSON' };
+						}
+					}
 				});
 
 				const options: OptionsWithUri = {
