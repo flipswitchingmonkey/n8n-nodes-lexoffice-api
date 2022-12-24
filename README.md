@@ -6,8 +6,6 @@ Its purpose is to provide access to the [Lexoffice Public API](https://developer
 
 Additionally, a trigger node to reacto the [Lexoffice Events](https://developers.lexoffice.io/docs/#event-subscriptions-endpoint-event-types) is provided as well.
 
-_App/service name_ is _one or two sentences describing the service this node integrates with_.
-
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
 [Installation](#installation)  
@@ -26,7 +24,7 @@ The npm package can be found here [https://www.npmjs.com/package/n8n-nodes-lexof
 
 ## Operations
 
-Refert to the [Lexoffice Public API](https://developers.lexoffice.io/docs) documentation for available operations.
+Refer to the [Lexoffice Public API](https://developers.lexoffice.io/docs) documentation for available operations.
 
 Note that not all operations may be supported by the node yet (and some may simply not work... please open an issue in that case!)
 
