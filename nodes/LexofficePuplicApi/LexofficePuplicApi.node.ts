@@ -14,6 +14,11 @@ import {
 } from './helpers';
 import { OptionsWithUri } from 'request-promise-native';
 
+interface IFormDataFile {
+	file: { value: string; options: { filename: string; contentType: string } };
+	type: string;
+}
+
 export class LexofficePuplicApi implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Lexoffice Public API',
@@ -75,12 +80,7 @@ export class LexofficePuplicApi implements INodeType {
 				const headers = { Authorization: `Bearer ${credentials.token}` };
 				body = {};
 				qs = {};
-				let formDataAsObject:
-					| {
-							file: { value: string; options: { filename: string; contentType: string } };
-							type: string;
-					  }
-					| undefined;
+				let formDataAsObject: IFormDataFile | undefined;
 
 				apiItem.request.header?.forEach((header) => {
 					Object.assign(headers, { [header.key]: header.value });
