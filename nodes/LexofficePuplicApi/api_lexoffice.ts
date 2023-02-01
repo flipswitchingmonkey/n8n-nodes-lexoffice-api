@@ -312,6 +312,16 @@ export const lexOfficeApiCollection: LexofficeApiCategoryItem[] = [
 		item: [
 			{
 				name: 'API File Upload',
+				properties: [
+					{
+						displayName: 'Binary Property',
+						name: 'binaryPropertyName',
+						type: 'string',
+						required: true,
+						default: 'data',
+						description: 'Name of the binary property from which to read the file data',
+					},
+				],
 				request: {
 					method: 'POST',
 					header: [
@@ -319,22 +329,11 @@ export const lexOfficeApiCollection: LexofficeApiCategoryItem[] = [
 							key: 'Accept',
 							value: 'application/json',
 						},
+						{
+							key: 'Content-Type',
+							value: 'multipart/form-data',
+						},
 					],
-					body: {
-						mode: 'formdata',
-						formdata: [
-							{
-								key: 'file',
-								value: '',
-								type: 'file',
-							},
-							{
-								key: 'type',
-								value: 'voucher',
-								type: 'text',
-							},
-						],
-					},
 					url: {
 						raw: '{{resourceurl}}/v1/files',
 						host: ['{{resourceurl}}'],

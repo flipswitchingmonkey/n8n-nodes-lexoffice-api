@@ -1,11 +1,12 @@
-import {
+import type {
+	IBinaryKeyData,
 	IDataObject,
 	IExecuteFunctions,
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
-	NodeApiError,
 } from 'n8n-workflow';
+import { NodeApiError } from 'n8n-workflow';
 import {
 	getApiItemByCategoryAndName,
 	lexOfficeApiCollectionCategoryOptions,
@@ -65,70 +66,96 @@ export class LexofficePuplicApi implements INodeType {
 		// For Query string
 		let qs: IDataObject;
 
-		for (let i = 0; i < items.length; i++) {
+		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
 			try {
-				_item = items[i];
+				_item = items[itemIndex];
 
 				const requestMethod = apiItem.request.method;
 				let endpoint = apiItem.request.url.path.join('/');
 				const headers = { Authorization: `Bearer ${credentials.token}` };
 				body = {};
 				qs = {};
+				let formDataAsObject:
+					| {
+							file: { value: string; options: { filename: string; contentType: string } };
+							type: string;
+					  }
+					| undefined;
 
 				apiItem.request.header?.forEach((header) => {
 					Object.assign(headers, { [header.key]: header.value });
 				});
 
 				apiItem.request.url.query?.forEach((query) => {
-					const queryValue = this.getNodeParameter(query.key, i) ?? query.value;
-					if (query.disabled && !this.getNodeParameter(query.key, i)) return;
+					const queryValue = this.getNodeParameter(query.key, itemIndex) ?? query.value;
+					if (query.disabled && !this.getNodeParameter(query.key, itemIndex)) return;
 					Object.assign(qs, { [query.key]: queryValue });
-					console.log(query, queryValue, qs);
 				});
 
-				apiItem.properties?.forEach((property) => {
-					const value = this.getNodeParameter(property.name, i) as string;
-					endpoint = endpoint.replace(`{{${property.name}}}`, value);
-					if (property.name === 'jsonBody') {
-						try {
-							body = JSON.parse(value);
-						} catch (error) {
-							body = { msg: 'Error parsing JSON' };
-						}
-					}
-				});
+				if (apiItem.properties) {
+					await Promise.all(
+						apiItem.properties.map(async (property) => {
+							const value = this.getNodeParameter(property.name, itemIndex) as string;
+							endpoint = endpoint.replace(`{{${property.name}}}`, value);
+							if (property.name === 'jsonBody') {
+								try {
+									body = JSON.parse(value);
+								} catch (error) {
+									body = { msg: 'Error parsing JSON' };
+								}
+							}
 
+							if (property.name === 'binaryPropertyName' && _item.binary?.hasOwnProperty(value)) {
+								const binaryDataBuffer = await this.helpers.getBinaryDataBuffer(itemIndex, value);
+								const binaryData = (_item.binary as IBinaryKeyData)[value];
+								formDataAsObject = {
+									file: {
+										value: binaryDataBuffer,
+										options: {
+											filename: binaryData.fileName ?? 'unknown',
+											contentType: binaryData.mimeType,
+										},
+									},
+									type: 'voucher',
+								};
+							}
+						}),
+					);
+				}
 				const options: OptionsWithUri = {
 					method: requestMethod,
 					body,
 					qs,
 					uri: `${baseUrl}/${endpoint}`,
 					headers,
-					json: true,
+					json: formDataAsObject ? false : true,
+					formData: formDataAsObject ?? undefined,
 				};
 
-				let responseData;
-
 				try {
+					let responseData;
 					responseData = await this.helpers.request(options);
 
 					if (apiItem.request.returnsBinary) {
 						const newItem: INodeExecutionData = {
-							json: items[i].json,
+							json: items[itemIndex].json,
 							binary: {},
-							pairedItem: { item: i },
+							pairedItem: { item: itemIndex },
 						};
 
-						if (items[i].binary !== undefined) {
+						if (items[itemIndex].binary !== undefined) {
 							// Create a shallow copy of the binary data so that the old
 							// data references which do not get changed still stay behind
 							// but the incoming data does not get changed.
-							Object.assign(newItem.binary!, items[i].binary);
+							Object.assign(newItem.binary!, items[itemIndex].binary);
 						}
 
 						try {
-							const dataPropertyName = this.getNodeParameter('binaryPropertyName', i) as string;
-							const filePathDownload = this.getNodeParameter('path', i) as string;
+							const dataPropertyName = this.getNodeParameter(
+								'binaryPropertyName',
+								itemIndex,
+							) as string;
+							const filePathDownload = this.getNodeParameter('path', itemIndex) as string;
 							newItem.binary![dataPropertyName] = await this.helpers.prepareBinaryData(
 								Buffer.from(responseData as string, 'base64'),
 								filePathDownload,
@@ -146,7 +173,7 @@ export class LexofficePuplicApi implements INodeType {
 				}
 			} catch (error) {
 				if (this.continueOnFail()) {
-					returnData.push({ error: error.message, json: {}, itemIndex: i });
+					returnData.push({ error: error.message, json: {}, itemIndex });
 					continue;
 				}
 				throw error;
