@@ -1,4 +1,6 @@
-# n8n-nodes-lexoffice-api
+# This project is not being actively maintained any more
+
+## n8n-nodes-lexoffice-api
 
 This is an n8n community node. It lets you use _app/service name_ in your n8n workflows.
 
